@@ -16,8 +16,8 @@ export const signUp = async (req, res) => {
             });
         }
         // check for existing user
-        const existingUser = await User.findOne({userName});
-        if(existingUser){
+        const user = await User.findOne({userName});
+        if(user){
             return res.status(400).json({
                 error:"User already exists"
             });
@@ -73,23 +73,23 @@ export const login = async (req, res) => {
     try {
        const {userName,password} = req.body;
        // check for existing user
-       const existingUser = await User.findOne({userName});
+       const user = await User.findOne({userName});
        // check for password
-       const isPassword = await bcrypt.compare(password,existingUser?.password  || "");
+       const isPassword = await bcrypt.compare(password,user?.password  || "");
        
-       if(!existingUser || !isPassword){
+       if(!user || !isPassword){
         return res.status(400).json({
             error:"Invalid Credentials"
             });
        }
        // Generate JWT Token
-       generateTokenAndSetCookie(existingUser._id,res);
+       generateTokenAndSetCookie(user._id,res);
        // send response
        res.status(200).json({
-        _id:existingUser._id,
-        fullName:existingUser.fullName,
-        userName:existingUser.userName,
-        profilePic:existingUser.profilePic
+        _id:user._id,
+        fullName:user.fullName,
+        userName:user.userName,
+        profilePic:user.profilePic
        });
     } catch (error) {
        console.log("Error in Login Controller",error.message);
