@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 //import All Routes Here
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
@@ -19,6 +20,9 @@ app.get('/', (req, res) => {
 
 
 //middleware
+app.use(cors({
+    origin:'http://localhost:5173',
+}));
 app.use(express.json());
 app.use(cookieParser());
 //routes
