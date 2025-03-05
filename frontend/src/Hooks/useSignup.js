@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
+import { useAuthContext } from '../Context/AuthContext';
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
-
+const {setAuthUser} =useAuthContext();
   const signup = async ({ fullName, userName, password, confirmPassword, gender }) => {
     const success = handleInputErrors({ fullName, userName, password, confirmPassword, gender });
 
@@ -27,6 +28,9 @@ const useSignup = () => {
       }
 
       toast.success(data.message || "Signup successful!", { position: "top-right" });
+      //localstorage
+      localStorage.setItem("chat-user", JSON.stringify(data));
+      setAuthUser(data);
     } catch (error) {
       toast.error(error.message || "Something went wrong", { position: "top-right" });
     } finally {

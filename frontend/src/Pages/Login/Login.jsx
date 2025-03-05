@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useLogin from "../../Hooks/useLogin";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
+const {loading,login} =useLogin();
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Logging in:", { username, password });
+    console.log("Logging in:", { userName, password });
+    await login( {userName, password} );
   };
 
   return (
@@ -27,8 +30,8 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 className="w-full bg-transparent text-lg outline-none border-none text-white placeholder-gray-300"
                 required
               />
@@ -63,11 +66,13 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-500 transition-transform transform hover:scale-105"
+
+            disabled={loading}
           >
-            Login
+            {loading ? <span className="loading loading-spinner"></span> : "Login"}
           </button>
 
-          
+          <ToastContainer position="top-right" autoClose={3000} />
         </form>
       </div>
     </div>

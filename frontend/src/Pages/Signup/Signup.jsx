@@ -121,8 +121,9 @@ const handleCheckBox = (gender)=>{
           <button
             type="submit"
             className="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-500 transition-transform transform hover:scale-105 mt-4"
+            disabled={loading}
           >
-            Sign Up
+           {loading ? <span className="loading loading-spinner"></span>: "Sign Up"}
           </button>
           <ToastContainer position="top-right" autoClose={3000} />
         </form>
